@@ -1,0 +1,41 @@
+#!/bin/bash -eu
+
+env_file="$SNAP_COMMON/conf.env"
+
+# Clear the file
+> "$env_file"
+
+use_cups="$(snapctl get use-cups)"
+if [[ -n "$use_cups" ]] ; then
+    echo "USE_CUPS=$use_cups" >> "$env_file"
+fi
+
+gateway_id="$(snapctl get gateway-id)"
+if [[ -n "$gateway_id" ]] ; then
+    echo "GATEWAY_ID=$gateway_id" >> "$env_file"
+fi
+
+tc_key="$(snapctl get tc-key)"
+if [[ -n "$tc_key" ]] ; then
+    echo "TC_KEY=$tc_key" >> "$env_file"
+fi
+
+tc_uri="$(snapctl get tc-uri)"
+if [[ -n "$tc_uri" ]] ; then
+    echo "TC_URI=$tc_uri" >> "$env_file"
+fi
+
+cups_key="$(snapctl get cups-key)"
+if [[ -n "$cups_key" ]] ; then
+    echo "CUPS_KEY=$cups_key" >> "$env_file"
+fi
+
+tts_personal_key="$(snapctl get tts-personal-key)"
+if [[ -n "$tts_personal_key" ]] ; then
+    echo "TTS_PERSONAL_KEY=$tts_personal_key" >> "$env_file"
+fi
+
+tts_username="$(snapctl get tts-username)"
+if [[ -n "$tts_username" ]] ; then
+    echo "TTS_USERNAME=$tts_username" >> "$env_file"
+fi
