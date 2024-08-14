@@ -19,17 +19,29 @@ sudo snap connect lora-basicstation:docker docker:docker-daemon
 sudo snap connect lora-basicstation:docker-executables docker:docker-executables
 ```
 
-Configure your gateway:
+Configuration of the gateway is done similar to the Docker container, using the same config options as listed [here](https://github.com/xoseperez/basicstation-docker?tab=readme-ov-file#configure-the-gateway).
+The only difference is that we use snap configs rather than environment variables.
+For the variable name (key), change it to lower case and replace underscores with hyphens.
+Then prefix the key with `env.`.
+The value remains exactly the same as before.
+
+Example:
+`GATEWAY_EUI=DEADFFFEBEEF` becomes `env.gateway-eui=DEADFFFEBEEF`
+
+After you have the configs in this format, you can set them one by one using the `snap set` command:
 
 ```
-sudo snap set env.lora-basicstation tc-uri="wss://eu1.cloud.thethings.network:8887"
-sudo snap set env.lora-basicstation tc-key=NNSXS...
+sudo snap set lora-basicstation env.tc-uri="wss://eu1.cloud.thethings.network:8887"
+sudo snap set lora-basicstation env.tc-key=NNSXS...
 ```
 
 Or with a single command:
 
 ```
-sudo snap set lora-basicstation env.gateway-eui=DEADFFFEBEEF env.model=SX1301 env.tc-key=NNSXS... env.tc-uri=wss://eu1.cloud.thethings.network:8887 env.device=/dev/spidev0.0 env.interface=SPI env.spi-speed=200000 env.use-libgpiod=1 env.gpio-chip=gpiochip4 env.reset-gpio=22
+sudo snap set lora-basicstation env.gateway-eui=DEADFFFEBEEF env.model=SX1301 \
+env.tc-key=NNSXS... env.tc-uri=wss://eu1.cloud.thethings.network:8887 \
+env.device=/dev/spidev0.0 env.interface=SPI env.spi-speed=200000 \
+env.use-libgpiod=1 env.gpio-chip=gpiochip4 env.reset-gpio=22
 ```
 
 Start the service and check the logs:
