@@ -5,9 +5,9 @@ services:
   basicstation:
     image: xoseperez/basicstation:latest
     container_name: basicstation
-    # restart: unless-stopped
+    # restart: none
     privileged: true
-    network_mode: host      # required to read main interface MAC instead of virtual one
+    network_mode: host # required to read main interface MAC instead of virtual one
     environment:
       GATEWAY_EUI: 0242ACFFFE110002
       MODEL: "SX1301"

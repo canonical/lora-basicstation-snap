@@ -1,7 +1,7 @@
 name: lora-basicstation
 base: core24
 version: &VERSION v2.8.3
-summary: LoRa Basics™ Station - The LoRaWAN Gateway Software  
+summary: LoRa Basics™ Station - The LoRaWAN Gateway Software
 description: |
   This snap bundles the lora-basicstation docker container into a snap.
 
@@ -9,28 +9,20 @@ grade: devel
 confinement: strict
 
 environment:
-  # Add the docker bin to PATH globally.
-  # We need this for the app as well as the hooks.
   PATH: $SNAP/docker/bin:$PATH
-  # This is the Docker image tag associated with this revision of the snap
   DOCKER_IMAGE_TAG: *VERSION
 
 plugs:
-  # For using Docker executables from the Docker snap.
-  # Once connected, several directories will be bind mounted under the target path.
-  # We are interested in the Docker CLI at: $SNAP/docker/bin/docker
   docker-executables:
     interface: content
     content: docker-executables
     target: $SNAP/docker
     default-provider: docker
-  # For accessing the Docker daemon via the unix socket
   docker:
     label: Access to the Docker Engine's unix socket
     default-provider: docker
 
 parts:
-  # This part adds our snap-specific files to the package
   local:
     plugin: dump
     source: snap/local

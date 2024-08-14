@@ -1,41 +1,102 @@
-#!/bin/bash -eu
+#!/bin/bash
 
-env_file="$SNAP_COMMON/conf.env"
+debug() {
+  [ "$DEBUG" != "true" ] && return
+  echo -e "[DEBUG] $1"
+}
 
-# Clear the file
-> "$env_file"
+err() {
+  echo -e "\n[ERROR] $1\n"
+}
 
-use_cups="$(snapctl get use-cups)"
-if [[ -n "$use_cups" ]] ; then
-    echo "USE_CUPS=$use_cups" >> "$env_file"
-fi
+debug_hash_table() {
+  [ "$DEBUG" != "true" ] && return
+  local -n table="$1"
+  debug "Hash table:\n"
+  for key in "${!table[@]}"; do
+    debug "$key : ${table[$key]}\n"
+  done
+}
 
-gateway_id="$(snapctl get gateway-id)"
-if [[ -n "$gateway_id" ]] ; then
-    echo "GATEWAY_ID=$gateway_id" >> "$env_file"
-fi
+json_to_hash_table() {
+  local -n hash_table=$1
+  shift
+  local json_input="$@"
 
-tc_key="$(snapctl get tc-key)"
-if [[ -n "$tc_key" ]] ; then
-    echo "TC_KEY=$tc_key" >> "$env_file"
-fi
+  json_input=$(echo "$json_input" | sed 's/[{}]//g' | tr -d '[:space:]')
 
-tc_uri="$(snapctl get tc-uri)"
-if [[ -n "$tc_uri" ]] ; then
-    echo "TC_URI=$tc_uri" >> "$env_file"
-fi
+  IFS=',' read -ra kv_pairs <<<"$json_input"
 
-cups_key="$(snapctl get cups-key)"
-if [[ -n "$cups_key" ]] ; then
-    echo "CUPS_KEY=$cups_key" >> "$env_file"
-fi
+  for pair in "${kv_pairs[@]}"; do
+    IFS=':' read -r key value <<<"$pair"
 
-tts_personal_key="$(snapctl get tts-personal-key)"
-if [[ -n "$tts_personal_key" ]] ; then
-    echo "TTS_PERSONAL_KEY=$tts_personal_key" >> "$env_file"
-fi
+    key=$(echo "$key" | sed 's/"//g')
+    value=$(echo "$value" | sed 's/"//g')
 
-tts_username="$(snapctl get tts-username)"
-if [[ -n "$tts_username" ]] ; then
-    echo "TTS_USERNAME=$tts_username" >> "$env_file"
-fi
+    hash_table["$key"]="$value"
+  done
+}
+
+check_num_at_start() {
+  if [[ "$1" =~ ^[0-9]+ ]]; then
+    err "Environment variable name shouldn't begin with a number: $1"
+    return 1
+  fi
+  return 0
+}
+
+convert_keys() {
+  local old=$1
+  local -n new=$2
+
+  check_num_at_start $old
+  [ $? -ne 0 ] && return 1
+
+  new=$(echo "$old" | tr '[:lower:]' '[:upper:]')
+  new=$(echo "$new" | tr '-' '_')
+
+  debug "old: $old -> new: $new"
+}
+
+export_vars() {
+  env_file="$SNAP_COMMON/conf.env"
+  # Clear the file
+  > "$env_file"
+
+  declare -n table=$1
+  local nk
+  for key in "${!table[@]}"; do
+
+    convert_keys $key nk
+    [ $? -ne 0 ] && continue
+
+    if [[ -n "${table[$key]}" ]] ; then
+        echo "$nk=${table[$key]}" >> "$env_file"
+    fi
+  done
+}
+
+handle_envs() {
+  json_str="$@"
+  [ -z "$json_str" ] && return
+
+  debug "snapctl json:\n$json_str"
+
+  declare -A vars_table
+  json_to_hash_table vars_table $json_str
+  debug_hash_table vars_table
+
+  export_vars vars_table
+}
+
+main() {
+  DEBUG=$(snapctl get env-injector.debug)
+  debug "debug : $DEBUG"
+
+  debug "Checking for GLOBAL env variables..."
+  json_str=$(snapctl get env)
+  handle_envs $json_str
+
+}
+
+main
