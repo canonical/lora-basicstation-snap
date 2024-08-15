@@ -30,4 +30,5 @@ parts:
 apps:
   lora-basicstation:
     command: bin/run.sh
+    stop-command: bin/stop.sh
     daemon: simple

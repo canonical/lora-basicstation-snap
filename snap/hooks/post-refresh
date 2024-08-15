@@ -1,8 +1,0 @@
-#!/bin/bash -eu
-
-container_name="$SNAP_INSTANCE_NAME"
-
-# Remove the container so it gets recreated upon snap's service startup
-# This results in creating the container based on the updated configuration
-# such as image name/tag, volumes, and ports.
-docker rm "$container_name" || true

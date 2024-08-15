@@ -1,5 +1,0 @@
-#!/bin/bash -eu
-
-container_name="$SNAP_INSTANCE_NAME"
-
-docker rm -f "$container_name"
