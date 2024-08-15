@@ -44,10 +44,16 @@ env.device=/dev/spidev0.0 env.interface=SPI env.spi-speed=200000 \
 env.use-libgpiod=1 env.gpio-chip=gpiochip4 env.reset-gpio=22
 ```
 
-Start the service and check the logs:
+The gateway software starts automatically after it is installed.
+You can however manually start it with this command:
 
 ```
 sudo snap start lora-basicstation
+```
+
+To view the log output, run:
+
+```
 sudo snap logs -f lora-basicstation
 ```
 
@@ -60,8 +66,26 @@ sudo snap stop lora-basicstation
 ## Tested platforms
 
 - Ubuntu Server 24.04 + Raspberry Pi 5 + [Pi Supply IoT Gateway Hat](https://uk.pi-supply.com/products/iot-lora-gateway-hat-for-raspberry-pi) + [RAK833-SPI](https://www.rakwireless.com/en-us/products/lpwan-gateways-and-concentrators/rak833)
+- Ubuntu Core 24 + Raspberry Pi 5 + [Pi Supply IoT Gateway Hat](https://uk.pi-supply.com/products/iot-lora-gateway-hat-for-raspberry-pi) + [RAK833-SPI](https://www.rakwireless.com/en-us/products/lpwan-gateways-and-concentrators/rak833)
 
 ## Debugging
+
+### Verify Docker container is running or not
+
+To make sure the docker container is running, execute the following command.
+If it does not list any containers with the name `lora-basicstation`, the container is not running.
+
+```
+sudo docker ps
+```
+
+In edge cases during development there might be a `lora-basicstation` docker container running that is not controlled by the companion snap.
+You can manually stop it using:
+
+```
+sudo docker stop lora-basicstation
+sudo docker rm -f lora-basicstation
+```
 
 ### Reset concentrator
 
