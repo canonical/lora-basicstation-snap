@@ -32,3 +32,4 @@ apps:
     command: bin/run.sh
     stop-command: bin/stop.sh
     daemon: simple
+    restart-delay: 10s

@@ -8,9 +8,7 @@ docker create \
   --name "$container_name" \
   --log-driver none \
   --env-file "$SNAP_COMMON/conf.env" \
-  --device=/dev/spidev0.0:/dev/spidev0.0 \
-  --device=/dev/gpiochip0:/dev/gpiochip0 \
-  --device=/dev/gpiochip4:/dev/gpiochip4 \
+  --privileged \
   "$image_name"
 
 echo "Starting container ..."
