@@ -71,6 +71,22 @@ sudo snap set lora-basicstation \
     env.reset-gpio=22
 ```
 
+You can also verify the options with `snap get`.
+For example directly after installation you will see a number of defaults that are already set:
+
+```
+$ sudo snap get lora-basicstation env
+Key            Value
+env.device     /dev/spidev0.0
+env.gpio-chip  gpiochip0
+```
+
+You will notice that this snap has the `env.device` and `env.gpio-chip` configs set by default.
+These configs are required to forward the correct devices to the Docker container.
+If you are using a Raspberry Pi 5 you will need to change the `env.gpio-chip` value to `gpiochip4`, otherwise the Docker container won't be able to reset the LoRa concentrator.
+
+## Running the snap
+
 The gateway software starts automatically after it is installed, and after a system restart.
 You will however need to manually restart it after you changed the configurations.
 

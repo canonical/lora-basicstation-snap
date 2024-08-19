@@ -21,6 +21,15 @@ plugs:
   docker:
     label: Access to the Docker Engine's unix socket
     default-provider: docker
+  proc-device-tree-model:
+    interface: system-files
+    read:
+      - /proc/device-tree/model
+      # Apparmor reports accessing /sys/firmware/devicetree/base/model
+
+hooks:
+  install:
+    plugs: [proc-device-tree-model]
 
 parts:
   local:
