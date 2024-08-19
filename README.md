@@ -24,7 +24,7 @@ On the target device, install the snap using this command:
 sudo snap install --dangerous ./lora-basicstation_*.snap
 ```
 
-Snaps on Ubuntu Core normally run in a strictly confined sandbox. 
+Snaps on Ubuntu Core normally run in a strictly confined sandbox.
 This snap needs access to the Docker Engine on the host, so we need to allow this special permission from inside the sandbox.
 To do that, connect the required docker interfaces:
 
@@ -40,7 +40,7 @@ The only difference is that we use snap configs rather than environment variable
 It would be possible to create an environment variable file and pass that to Docker, but we prefer to use the standard snap configuration options.
 This allows us to leverage the snap ecosystem to maintain and update our Ubuntu Core devices.
 
-To translate from environment variables to snap options, we only need to change the name or key of the configuration option. 
+To translate from environment variables to snap options, we only need to change the name or key of the configuration option.
 The values remain the same.
 For the variable name, change it to lower case and replace underscores with hyphens.
 Then prefix it with `env.`.
@@ -104,6 +104,17 @@ sudo snap logs -f lora-basicstation
 
 # Debugging
 
+## Verify environment
+
+The snap configs are translated to an environment file when this snap is started.
+This environment file is passed to the Docker container when it is created.
+
+You can verify the contents of the environment file with this command:
+
+```
+cat /var/snap/lora-basicstation/common/conf.env
+```
+
 ## Verify that the Docker container is running
 
 To make sure the docker container is running, execute the following command.
@@ -120,6 +131,10 @@ You can manually stop and remove it using:
 sudo docker stop lora-basicstation
 sudo docker rm -f lora-basicstation
 ```
+
+The snap has been configured to automatically restart the service if it exited.
+If you manually remove the docker container while the snap is started, you should see it being automatically recreated after some amount of time.
+This restart delay is configured in the `snapcraft.yaml` file.
 
 ## Reset concentrator
 

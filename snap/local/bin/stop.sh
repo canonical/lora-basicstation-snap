@@ -1,9 +1,8 @@
 #!/bin/bash -eu
 
-# When the snap is stopped or restarted, we always stop and remove the container.
-# This is so that it gets recreated with the latest config.env file when it starts.
+# The LoRa Basic Station container does not exit when snapd sends it a SIGTERM.
+# We therefore tell docker to forcibly stop the container.
 
 container_name="$SNAP_INSTANCE_NAME"
 
-docker stop "$container_name" || true
 docker rm -f "$container_name" || true
