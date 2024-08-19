@@ -1,0 +1,12 @@
+#!/bin/bash -eu
+
+echo "Setting default device=/dev/spidev0.0"
+snapctl set env.device=/dev/spidev0.0
+
+if grep -q "Raspberry Pi 5" "/proc/device-tree/model"; then
+  echo "Setting Raspberry Pi 5 default env.gpio-chip=gpiochip4"
+  snapctl set env.gpio-chip=gpiochip4
+else
+  echo "Setting default env.gpio-chip=gpiochip0"
+  snapctl set env.gpio-chip=gpiochip0
+fi
