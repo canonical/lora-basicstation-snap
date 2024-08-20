@@ -1,16 +1,16 @@
 name: lora-basicstation
 base: core24
-version: &VERSION v2.8.3
 summary: LoRa Basics™ Station - The LoRaWAN Gateway Software
 description: |
   This snap bundles the lora-basicstation docker container into a snap.
+adopt-info: local
 
-grade: devel
+grade: stable
 confinement: strict
 
 environment:
   PATH: $SNAP/docker/bin:$PATH
-  DOCKER_IMAGE_TAG: *VERSION
+  DOCKER_IMAGE_TAG: &DOCKER_TAG v2.8.3
 
 plugs:
   docker-executables:
@@ -18,26 +18,32 @@ plugs:
     content: docker-executables
     target: $SNAP/docker
     default-provider: docker
-  docker:
-    label: Access to the Docker Engine's unix socket
-    default-provider: docker
-  proc-device-tree-model:
-    interface: system-files
-    read:
-      - /proc/device-tree/model
-      # Apparmor reports accessing /sys/firmware/devicetree/base/model
 
-hooks:
-  install:
-    plugs: [proc-device-tree-model]
+#  Adding this system-files plug requires manual approval to upload to the store
+#  proc-device-tree-model:
+#    interface: system-files
+#    read:
+#      - /proc/device-tree/model
+#      # Apparmor reports accessing /sys/firmware/devicetree/base/model
+
+# hooks:
+#   install:
+#     plugs: [proc-device-tree-model]
 
 parts:
   local:
     plugin: dump
     source: snap/local
+    build-environment:
+      - BUILD_METADATA: snap.1
+      - DOCKER_TAG: *DOCKER_TAG
+    override-pull: |
+      craftctl default
+      craftctl set version=$DOCKER_TAG+$BUILD_METADATA
 
 apps:
   lora-basicstation:
+    plugs: [docker, docker-executables]
     command: bin/run.sh
     stop-command: bin/stop.sh
     daemon: simple
