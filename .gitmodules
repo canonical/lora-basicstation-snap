@@ -1,0 +1,4 @@
+[submodule "ubuntu-core-image/pi-gadget"]
+	path = ubuntu-core-image/pi-gadget
+	url = https://github.com/snapcore/pi-gadget.git
+	branch = 24

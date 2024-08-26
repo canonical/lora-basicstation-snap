@@ -1,0 +1,27 @@
+defaults:
+  # landscape client
+  ffnH0sJpX3NFAclH777M8BdXIWpo93af:
+    landscape-url: https://landscape.canonical.com
+    account-name: "<REDACTED>"
+    registration-key: ""
+    auto-register:
+      enabled: true
+      computer-title-pattern: ${mac}
+      wait-for-serial-as: false
+
+  system:
+    service:
+      console-conf:
+        disable: true
+
+    system:
+      network:
+        netplan:
+          network:
+            version: 2
+            wifis:
+              wlan0:
+                dhcp4: true
+                access-points:
+                  "my-wifi-ssid":
+                    password: "my-wifi-password"

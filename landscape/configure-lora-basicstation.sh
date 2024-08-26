@@ -32,10 +32,10 @@ snap_http.http.post(
 time.sleep(10)
 
 snap_http.set_conf("lora-basicstation", {
-	"env.gateway-eui": "<REDACATED>",
+	"env.gateway-eui": "<REDACTED>",
 	"env.model": "SX1301",
-	"env.tc-key": "NNSXS.<REDACATED>",
-	"env.tc-uri": "wss://<REDACATED>.eu1.cloud.thethings.industries:8887",
+	"env.tc-key": "NNSXS.<REDACTED>",
+	"env.tc-uri": "wss://<REDACTED>.eu1.cloud.thethings.industries:8887",
 	"env.device": "/dev/spidev0.0",
 	"env.interface": "SPI",
 	"env.spi-speed": "200000",
