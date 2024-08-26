@@ -32,16 +32,18 @@ snap_http.http.post(
 time.sleep(10)
 
 snap_http.set_conf("lora-basicstation", {
-	"env.gateway-eui": "<REDACTED>",
-	"env.model": "SX1301",
-	"env.tc-key": "NNSXS.<REDACTED>",
-	"env.tc-uri": "wss://<REDACTED>.eu1.cloud.thethings.industries:8887",
-	"env.device": "/dev/spidev0.0",
-	"env.interface": "SPI",
-	"env.spi-speed": "200000",
-	"env.use-libgpiod": "1",
-	"env.gpio-chip": "gpiochip4",
-	"env.reset-gpio": "25"
+	"env": {
+		"gateway-eui": "<REDACTED>",
+		"model": "SX1301",
+		"tc-key": "NNSXS.<REDACTED>",
+		"tc-uri": "wss://<REDACTED>.eu1.cloud.thethings.industries:8887",
+		"device": "/dev/spidev0.0",
+		"interface": "SPI",
+		"spi-speed": "200000",
+		"use-libgpiod": "1",
+		"gpio-chip": "gpiochip4",
+		"reset-gpio": "25"
+	}
 })
 
 time.sleep(10)
