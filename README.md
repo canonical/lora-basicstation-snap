@@ -151,37 +151,3 @@ sudo docker rm -f lora-basicstation
 The snap has been configured to automatically restart the service if it exited.
 If you manually remove the docker container while the snap is started, you should see it being automatically recreated after some amount of time.
 This restart delay is configured in the `snapcraft.yaml` file.
-
-## Reset concentrator
-
-The most common issue with LoRa concentrators on a Raspberry Pi is misconfigured reset pins.
-It is also not always clean which GPIO to use as reset.
-The logs displayed by `snap logs lora-basicstation` will give an hint of which GPIO chip and line are used, and if it is successfully communicating with the concentrator.
-
-To reset the gateway concentrator hardware, you can manually toggle the reset GPIO pin.
-A convenience script is provided to assist with this.
-The following example is for the Raspberry Pi 5.
-Replace `RESET_GPIO="22"` with the correct GPIO line your concentrator is connected to.
-If you are using an older Raspberry Pi, set `GPIO_CHIP` to `gpiochip0`.
-
-```
-sudo GPIO_CHIP="gpiochip4" RESET_GPIO="22" POWER_EN_GPIO=0 POWER_EN_LOGIC=0 ./reset.gpiod.sh
-```
-
-## Run with docker compose
-
-As another layer of debugging we include a docker compose file.
-
-Edit the `docker-compose.yaml` file with the correct environment variables for your setup.
-
-Then start the container:
-
-```
-docker compose up
-```
-
-Check the logs to see if Basic Station is connecting to the LoRa Network Server,
-the concentrator is started and calibrated successfully,
-and packets are being received.
-
-If the docker compose setup is working, you can translate the environment variables used by it into snap configs.

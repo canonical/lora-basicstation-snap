@@ -1,0 +1,42 @@
+name: lora-compose
+base: core24
+version: '0.0.1'
+summary: Docker Compose in snap
+description: |
+  Test using a docker-compose.yaml file inside a docker companion snap.
+
+grade: devel
+confinement: strict
+
+environment:
+  PATH: $SNAP/docker/bin:$PATH
+
+# Need to link in docker plugins to use compose
+layout:
+  /usr/libexec/docker/cli-plugins:
+    symlink: $SNAP/docker/usr/libexec/docker/cli-plugins
+
+plugs:
+  docker-executables:
+    interface: content
+    content: docker-executables
+    target: $SNAP/docker
+    default-provider: docker
+
+parts:
+  local:
+    plugin: dump
+    source: snap/local
+
+  compose-file:
+    plugin: dump
+    source: docker-compose.yaml
+    source-type: file
+
+apps:
+  lora-compose:
+    plugs: [docker, docker-executables]
+    daemon: simple
+    command: bin/start.sh
+    install-mode: disable
+    restart-delay: 10s
