@@ -1,15 +1,16 @@
-name: lora-compose
+name: lora-basicstation
 base: core24
-version: '0.0.1'
-summary: Docker Compose in snap
+summary: LoRa Basics™ Station - The LoRaWAN Gateway Software
 description: |
-  Test using a docker-compose.yaml file inside a docker companion snap.
-
-grade: devel
+  This project deploys a LoRaWAN gateway with Basics™ Station Packet Forward 
+  protocol using Docker from inside a snap.
+adopt-info: version
+grade: stable
 confinement: strict
 
 environment:
   PATH: $SNAP/docker/bin:$PATH
+  DOCKER_IMAGE_TAG: &DOCKER_IMAGE_TAG v2.8.4
 
 # Need to link in docker plugins to use compose
 layout:
@@ -23,10 +24,27 @@ plugs:
     target: $SNAP/docker
     default-provider: docker
 
+hooks:
+  post-refresh:
+    plugs: [docker, docker-executables]
+  remove:
+    plugs: [docker, docker-executables]
+
 parts:
-  local:
+  version:
+    plugin: nil
+    build-environment:
+      - BUILD_METADATA: snap.1
+      - DOCKER_IMAGE_TAG: *DOCKER_IMAGE_TAG
+    override-pull: |
+      craftctl default
+      craftctl set version=$DOCKER_IMAGE_TAG+$BUILD_METADATA
+
+
+  start-script:
     plugin: dump
-    source: snap/local
+    source: start.sh
+    source-type: file
 
   compose-file:
     plugin: dump
@@ -34,9 +52,9 @@ parts:
     source-type: file
 
 apps:
-  lora-compose:
+  lora-basicstation:
     plugs: [docker, docker-executables]
     daemon: simple
-    command: bin/start.sh
+    command: start.sh
     install-mode: disable
-    restart-delay: 10s
+    restart-delay: 60s

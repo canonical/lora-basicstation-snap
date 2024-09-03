@@ -1,0 +1,102 @@
+#!/bin/bash
+
+debug() {
+  [ "$DEBUG" != "true" ] && return
+  echo -e "[DEBUG] $1"
+}
+
+err() {
+  echo -e "\n[ERROR] $1\n"
+}
+
+debug_hash_table() {
+  [ "$DEBUG" != "true" ] && return
+  local -n table="$1"
+  debug "Hash table:\n"
+  for key in "${!table[@]}"; do
+    debug "$key : ${table[$key]}\n"
+  done
+}
+
+json_to_hash_table() {
+  local -n hash_table=$1
+  shift
+  local json_input="$@"
+
+  json_input=$(echo "$json_input" | sed 's/[{}]//g' | tr -d '[:space:]')
+
+  IFS=',' read -ra kv_pairs <<<"$json_input"
+
+  for pair in "${kv_pairs[@]}"; do
+    IFS=':' read -r key value <<<"$pair"
+
+    key=$(echo "$key" | sed 's/"//g')
+    value=$(echo "$value" | sed 's/"//g')
+
+    hash_table["$key"]="$value"
+  done
+}
+
+check_num_at_start() {
+  if [[ "$1" =~ ^[0-9]+ ]]; then
+    err "Environment variable name shouldn't begin with a number: $1"
+    return 1
+  fi
+  return 0
+}
+
+convert_keys() {
+  local old=$1
+  local -n new=$2
+
+  check_num_at_start $old
+  [ $? -ne 0 ] && return 1
+
+  new=$(echo "$old" | tr '[:lower:]' '[:upper:]')
+  new=$(echo "$new" | tr '-' '_')
+
+  debug "old: $old -> new: $new"
+}
+
+export_vars() {
+  env_file="$SNAP_COMMON/conf.env"
+  # Clear the file
+  >"$env_file"
+
+  declare -n table=$1
+  local nk
+  for key in "${!table[@]}"; do
+
+    convert_keys $key nk
+    [ $? -ne 0 ] && continue
+
+    if [[ -n "${table[$key]}" ]]; then
+      echo "$nk=${table[$key]}" >>"$env_file"
+    fi
+  done
+}
+
+handle_envs() {
+  json_str="$@"
+  [ -z "$json_str" ] && return
+
+  debug "snapctl json:\n$json_str"
+
+  declare -A vars_table
+  json_to_hash_table vars_table $json_str
+  debug_hash_table vars_table
+
+  export_vars vars_table
+}
+
+main() {
+  DEBUG=$(snapctl get env-injector.debug)
+  debug "debug : $DEBUG"
+
+  debug "Checking for GLOBAL env variables..."
+  json_str=$(snapctl get env)
+  handle_envs $json_str
+
+}
+
+main
