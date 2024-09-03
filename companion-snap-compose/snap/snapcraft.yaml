@@ -46,6 +46,11 @@ parts:
     source: start.sh
     source-type: file
 
+  run-in-container:
+    plugin: dump
+    source: run-in-container.sh
+    source-type: file
+
   compose-file:
     plugin: dump
     source: docker-compose.yaml
@@ -58,3 +63,11 @@ apps:
     command: start.sh
     install-mode: disable
     restart-delay: 60s
+
+  gateway-eui:
+    plugs: [docker, docker-executables]
+    command: run-in-container.sh gateway_eui
+
+  find-concentrator:
+    plugs: [docker, docker-executables]
+    command: run-in-container.sh find_concentrator
