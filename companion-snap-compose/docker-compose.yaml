@@ -3,7 +3,8 @@ name: $SNAP_INSTANCE_NAME
 services:
   basicstation:
     image: xoseperez/basicstation:$DOCKER_IMAGE_TAG
-    restart: unless-stopped
+    logging:
+      driver: none
     network_mode: host # required to read host interface MAC instead of virtual one, you don't need this if you set the GATEWAY_EUI manually
 
     devices:
