@@ -10,9 +10,6 @@ services:
     devices:
       - "${spi_device:-/dev/spidev0.0}"
       - "/dev/${gpio_chip:-gpiochip0}"
-    
-    volumes:
-     - $SNAP_COMMON/config:/app/config
 
     env_file: $SNAP_COMMON/conf.env
   
