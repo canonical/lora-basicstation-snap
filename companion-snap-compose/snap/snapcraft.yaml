@@ -1,0 +1,73 @@
+name: lora-basicstation
+base: core24
+summary: LoRa Basics™ Station - The LoRaWAN Gateway Software
+description: |
+  This project deploys a LoRaWAN gateway with Basics™ Station Packet Forward 
+  protocol using Docker from inside a snap.
+adopt-info: version
+grade: stable
+confinement: strict
+
+environment:
+  PATH: $SNAP/docker/bin:$PATH
+  DOCKER_IMAGE_TAG: &DOCKER_IMAGE_TAG v2.8.4
+
+# Add a symlink so that Docker CLI can find the compose plugin
+layout:
+  /usr/libexec/docker/cli-plugins:
+    symlink: $SNAP/docker/usr/libexec/docker/cli-plugins
+
+plugs:
+  docker-executables:
+    interface: content
+    content: docker-executables
+    target: $SNAP/docker
+    default-provider: docker
+
+hooks:
+  post-refresh:
+    plugs: [docker, docker-executables]
+  remove:
+    plugs: [docker, docker-executables]
+
+parts:
+  version:
+    plugin: nil
+    build-environment:
+      - BUILD_METADATA: snap.1
+      - DOCKER_IMAGE_TAG: *DOCKER_IMAGE_TAG
+    override-pull: |
+      craftctl default
+      craftctl set version=$DOCKER_IMAGE_TAG+$BUILD_METADATA
+
+
+  start-script:
+    plugin: dump
+    source: start.sh
+    source-type: file
+
+  run-command-in-container:
+    plugin: dump
+    source: run-command-in-container.sh
+    source-type: file
+
+  compose-file:
+    plugin: dump
+    source: docker-compose.yaml
+    source-type: file
+
+apps:
+  lora-basicstation:
+    plugs: [docker, docker-executables]
+    daemon: simple
+    command: start.sh
+    install-mode: disable
+    restart-delay: 60s
+
+  gateway-eui:
+    plugs: [docker, docker-executables]
+    command: run-command-in-container.sh gateway_eui
+
+  find-concentrator:
+    plugs: [docker, docker-executables]
+    command: run-command-in-container.sh find_concentrator

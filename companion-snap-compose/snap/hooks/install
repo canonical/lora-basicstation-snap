@@ -1,0 +1,6 @@
+#!/bin/bash -e
+
+touch $SNAP_COMMON/conf.env
+
+snapctl set env.device=/dev/spidev0.0
+snapctl set env.gpio-chip=gpiochip0
