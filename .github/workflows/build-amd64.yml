@@ -1,8 +1,6 @@
 name: Snap CI AMD64
 
 on:
-  schedule:
-    - cron: "20 2 * * 1" # Monday morning 02:20 UTC
   push:
     branches: [main]
   pull_request:
