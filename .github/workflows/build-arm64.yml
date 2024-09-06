@@ -1,0 +1,54 @@
+name: Snap CI ARM64
+
+on:
+  schedule:
+    - cron: "20 2 * * 1" # Monday morning 02:20 UTC
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  # Allow manual trigger
+  workflow_dispatch:
+
+env:
+  ARTIFACT_ARM64: lora-basicstation_${{ github.run_number}}_arm64
+
+jobs:
+  build:
+    outputs:
+      snap: ${{ steps.snapcraft.outputs.snap }}
+    runs-on: [self-hosted, ARM64, Linux]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Snap
+        uses: snapcore/action-build@v1
+        id: snapcraft
+        with:
+          path: companion-snap-compose
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.ARTIFACT_ARM64 }}
+          path: ${{ steps.snapcraft.outputs.snap }}
+          if-no-files-found: error
+
+  publish-edge:
+    # Only publish if we are on the main branch
+    if: github.ref == 'refs/heads/main'
+    needs: [build]
+    runs-on: [self-hosted, ARM64, Linux]
+    steps:
+      - name: Download locally built snap
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.ARTIFACT_ARM64 }}
+
+      - uses: snapcore/action-publish@v1
+        env:
+          SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.STORE_LOGIN }}
+        with:
+          snap: ${{ needs.build.outputs.snap }}
+          release: latest/edge
