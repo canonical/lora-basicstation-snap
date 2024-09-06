@@ -62,7 +62,7 @@ sudo snap set lora-basicstation \
     env.reset-gpio=22
 ```
 
-An option can be cleared with the `snap unset` command, ex:
+An option can be cleared with the `snap unset` command, e.g.:
 
 ```
 sudo snap unset lora-basicstation env.gateway-eui
@@ -78,7 +78,6 @@ env.device     /dev/spidev0.0
 env.gpio-chip  gpiochip0
 ```
 
-This snap has the `env.device` and `env.gpio-chip` configs set by default.
 These configs are required to forward the correct devices to the Docker container.
 If you are using a Raspberry Pi 5 you will need to change the `env.gpio-chip` value to `gpiochip4`, otherwise the Docker container won't be able to reset the LoRa concentrator.
 

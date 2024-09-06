@@ -12,7 +12,7 @@ environment:
   PATH: $SNAP/docker/bin:$PATH
   DOCKER_IMAGE_TAG: &DOCKER_IMAGE_TAG v2.8.4
 
-# Need to link in docker plugins to use compose
+# Add a symlink so that Docker CLI can find the compose plugin
 layout:
   /usr/libexec/docker/cli-plugins:
     symlink: $SNAP/docker/usr/libexec/docker/cli-plugins
@@ -46,9 +46,9 @@ parts:
     source: start.sh
     source-type: file
 
-  run-in-container:
+  run-command-in-container:
     plugin: dump
-    source: run-in-container.sh
+    source: run-command-in-container.sh
     source-type: file
 
   compose-file:
@@ -66,8 +66,8 @@ apps:
 
   gateway-eui:
     plugs: [docker, docker-executables]
-    command: run-in-container.sh gateway_eui
+    command: run-command-in-container.sh gateway_eui
 
   find-concentrator:
     plugs: [docker, docker-executables]
-    command: run-in-container.sh find_concentrator
+    command: run-command-in-container.sh find_concentrator
