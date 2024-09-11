@@ -1,10 +1,9 @@
-#!/bin/bash
-{
-python3 - << EOF
+#!/usr/bin/env python3
+
 import time
 from landscape.client import snap_http
 
-# sudo snap connect lora-basicstation:docker docker:docker-daemon
+print("snap connect lora-basicstation:docker docker:docker-daemon")
 snap_http.http.post(
     "/interfaces",
     {
@@ -14,12 +13,9 @@ snap_http.http.post(
     },
 )
 
-# Configure seems to be async. Sleep 10 seconds to wait for it to finish.
-# landscape.client.snap_http.http.SnapdHttpException: b'{"type":"error","status-code":409,"status":"Conflict","result":{"message":"snap \\"lora-basicstation-jpm\\" has \\"connect-snap\\" change in progress","kind":"snap-change-conflict","value":{"change-kind":"connect-snap","snap-name":"lora-basicstation-jpm"}}}'
-# landscape.client.snap_http.http.SnapdHttpException: b'{"type":"error","status-code":400,"status":"Bad Request","result":{"message":"snap \\"lora-basicstation-jpm\\" has \\"configure-snap\\" change in progress"}}'
 time.sleep(10)
 
-# sudo snap connect lora-basicstation:docker-executables docker:docker-executables
+print("snap connect lora-basicstation:docker-executables docker:docker-executables")
 snap_http.http.post(
     "/interfaces",
     {
@@ -31,6 +27,7 @@ snap_http.http.post(
 
 time.sleep(10)
 
+print("Setting options")
 snap_http.set_conf("lora-basicstation", {
 	"env": {
 		"gateway-eui": "<REDACTED>",
@@ -48,7 +45,5 @@ snap_http.set_conf("lora-basicstation", {
 
 time.sleep(10)
 
-snap_http.restart("lora-basicstation")
-
-EOF
-} &> /tmp/scriptoutput
+print("Starting and enabling service")
+snap_http.start("lora-basicstation", enable=True)

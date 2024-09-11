@@ -3,8 +3,8 @@
     "series": "16",
     "model": "uc24-pi-arm64-lora",
     "architecture": "arm64",
-    "authority-id": "<REDACTED>",
-    "brand-id": "<REDACTED>",
+    "authority-id": "5LfALSq3Z4FRd0bInQ9gtqN2EKOsvh7M",
+    "brand-id": "5LfALSq3Z4FRd0bInQ9gtqN2EKOsvh7M",
     "timestamp": "2024-08-20T12:20:00+00:00",
     "base": "core24",
     "grade": "dangerous",
@@ -44,10 +44,10 @@
             "id": "sLCsFAO8PKM5Z0fAKNszUOX0YASjQfeZ"
         },
         {
-            "name": "lora-basicstation-jpm",
+            "name": "lora-basicstation",
             "type": "app",
-            "default-channel": "latest/stable",
-            "id": "9W464FbCWND7wT7i8stxvrGPLqims23P"
+            "default-channel": "latest/edge",
+            "id": "Ym43FmNEiZgqaAciYg6EMqRC4dUjcYYb"
         },
         {
             "name": "landscape-client",

@@ -1,5 +1,5 @@
 defaults:
-  # landscape client
+  # Preconfigure Landscape Client
   ffnH0sJpX3NFAclH777M8BdXIWpo93af:
     landscape-url: https://landscape.canonical.com
     account-name: "<REDACTED>"
@@ -10,10 +10,12 @@ defaults:
       wait-for-serial-as: false
 
   system:
+    # Disable console-conf so that we do not have an interactive installer at first bootup
     service:
       console-conf:
         disable: true
 
+    # Add this if you want to preconfigure wifi credentials
     system:
       network:
         netplan:
