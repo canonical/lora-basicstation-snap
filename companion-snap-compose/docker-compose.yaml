@@ -12,4 +12,3 @@ services:
       - "/dev/${GPIO_CHIP:-gpiochip0}"
 
     env_file: $SNAP_COMMON/conf.env
-  
