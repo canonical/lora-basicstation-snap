@@ -8,8 +8,7 @@ services:
     network_mode: host # required to read host interface MAC instead of virtual one, you don't need this if you set the GATEWAY_EUI manually
 
     devices:
-      - "${spi_device:-/dev/spidev0.0}"
-      - "/dev/${gpio_chip:-gpiochip0}"
+      - "${DEVICE:-/dev/spidev0.0}"
+      - "/dev/${GPIO_CHIP:-gpiochip0}"
 
     env_file: $SNAP_COMMON/conf.env
-  
