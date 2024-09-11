@@ -12,7 +12,7 @@ After your Raspberry Pi has started up, it should register with Landscape and ap
 
 In our gadget snap we have configured `landscape-client` to use the device mac address as name.
 Click on this name to configure and accept the device on to your Landscape instance.
-You can customise the device name here.
+You can customise the device title here.
 Then click accept.
 
 ![accept device](media/accept-device.png)
@@ -42,7 +42,7 @@ An example script is provided [here](scripts/configure-lora-basicstation.sh).
 On Landscape, after selecting your device from the list of computers, go to the scripts tab.
 If presented with a choice, select `Run a new script` and then `Next`.
 You will now see a form to create a new script.
-Give it a new, something like `Configure Basicstation` will do.
+Give it a name, something like `Configure Basicstation` will do.
 
 In the code block paste the contents of the example script we linked to in the previous paragraph.
 You can modify the configuration in the script to suite your needs.
@@ -61,19 +61,18 @@ After a couple of minutes you should see a success.
 
 The text in the status column is clickable, and will show the output of the script. `stdout` on success and `stderr` on failure.
 
+![stdout](media/activity-stdout.png)
+
 Log into your LoRa network server and check if your gateway is connected.
+
+![LNS](media/lns-gateway-status.png)
 
 ## Debugging
 
-Because it is possible to run arbitrary scripts on the device, you can get creative what you do on it.
-Landscape currently does not return the standard output or error responses of these scripts.
-One can store these in files, and upload these files to a server.
-Another option is to create a user account on the device, then log into the device over SSH, or locally using a keyboard and mouse.
-
+Debugging can be done by running scripts on the device.
 Example scripts for Ubuntu Core devices on Landscape are available [here](https://github.com/canonical/landscape-scripts/tree/main/core).
 
-## Creating a user
-
+Another debug option is to create a user account on the device, then log into the device over SSH, or locally using a keyboard and mouse.
 The user management interface of Landscape does not currently work for Ubuntu Core.
 Scripts to add users are available in the [examples](https://github.com/canonical/landscape-scripts/tree/main/core/users).
 
