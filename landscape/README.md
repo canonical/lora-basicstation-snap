@@ -11,7 +11,7 @@ After your Raspberry Pi has started up, it should register with Landscape and ap
 ![pending device](media/dashboard-pending-device.png)
 
 In our gadget snap we have configured `landscape-client` to use the device mac address as name.
-Click on this name to configure and accept the device on to your Landscape instance.
+Click on this name to configure and accept the device to your Landscape instance.
 You can customise the device title here.
 Then click accept.
 
@@ -19,7 +19,7 @@ Then click accept.
 
 After accepting you will see the info page for the device.
 Devices are called computers on Landscape.
-To get back to this page in the future you can use the computers menu, then selecting the device your are interested in from the list.
+To get back to this page in the future you can use the computers menu, then from the list selecting the device you are interested in.
 
 Wait a couple of minutes for the device to check in. This info page will show some basic parameters of the device, like total memory, model and MAC addresses.
 
@@ -48,7 +48,7 @@ In the code block paste the contents of the example script we linked to in the p
 You can modify the configuration in the script to suite your needs.
 The configuration follows the guide [here](../companion-snap-compose/README.md#configuration).
 
-Enter `root` as user the script should run as.
+Enter `root` as the user the script should run as.
 Select to save the script.
 Then click `Run`.
 
