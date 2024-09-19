@@ -27,11 +27,11 @@ Wait a couple of minutes for the device to check in. This info page will show so
 
 ## Verify installed snaps
 
-Under the Snaps tab, click on `Installed snaps`.
+Under the Snaps tab, click on **Installed snaps**.
 Here you can see which snaps are installed on the device, as well as update or remove them.
 Verify that `lora-basicstation` is listed here.
 
-To install more software on your device, you can click on `Install snaps` under the Snaps tab.
+To install more software on your device, you can click on **Install snaps** under the Snaps tab.
 
 ## Configure your gateway
 
@@ -40,9 +40,9 @@ We configure our gateway by setting snap options for `lora-basicstation` via a s
 An example script is provided [here](scripts/configure-lora-basicstation.sh).
 
 On Landscape, after selecting your device from the list of computers, go to the scripts tab.
-If presented with a choice, select `Run a new script` and then `Next`.
+If presented with a choice, select **Run a new script** and then **Next**.
 You will now see a form to create a new script.
-Give it a name, something like `Configure Basicstation` will do.
+Give it a name, something like *Configure Basicstation* will do.
 
 In the code block paste the contents of the example script we linked to in the previous paragraph.
 You can modify the configuration in the script to suite your needs.
@@ -50,7 +50,7 @@ The configuration follows the guide [here](../companion-snap-compose/README.md#c
 
 Enter `root` as the user the script should run as.
 Select to save the script.
-Then click `Run`.
+Then click **Run**.
 
 ![create scripts](media/create-script.png)
 
