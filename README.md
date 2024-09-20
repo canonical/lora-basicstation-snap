@@ -12,13 +12,14 @@ You can read more on Ubuntu Core and its features [here](https://ubuntu.com/core
 ## Basic Station Snap
 
 This snap bundles the LoRa Basics™ Station [Docker container](https://github.com/xoseperez/basicstation-docker) for deployment on Ubuntu Core.
-The snap is available from the Snap Store, or it can be compiled using the source in this repository.
-
-To install the snap from the Snap Store, run this command:
+The snap is available in the Snap Store. 
+Run this command to install it:
 
 ```
 sudo snap install lora-basicstation
 ```
+
+It can also be built from source, available [here](companion-snap-compose).
 
 For more details on how to use this snap, how it works, or how to build it yourself, [read further here](companion-snap-compose/README.md).
 

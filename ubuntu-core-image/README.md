@@ -59,7 +59,7 @@ Build successful
 During the build process you will see two warnings.
 
 - The warning about the kernel is discussed [here](https://forum.snapcraft.io/t/ubuntu-image-warning-kernel-snap/37774/3).
-- The warning about the `pi` snap is because we side-loaded our custom locally built snap. This snap is not provided via the Snap Store and it will therefore not get updates. To get updates for custom snaps like these you will need a [dedicated Snap Store](https://ubuntu.com/core/docs/dedicated-snap-stores).
+- The warning about the `pi` snap is because we side-loaded our custom locally built snap. This snap is not provided via the Snap Store and it will therefore not get updates. To get updates for custom Gadget snaps like these you will need a [dedicated Snap Store](https://ubuntu.com/core/docs/dedicated-snap-stores).
 
 If the build was successful you will find a file called `pi.img` in the working directory.
 
