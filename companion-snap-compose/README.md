@@ -5,10 +5,6 @@ This companion snap allows running and configuring a LoRa gateway on Ubuntu Core
 
 ## Install the snap
 
-> The snap is not yet available from the Snap Store.
-> It is currently required to build it yourself.
-> Refer to [Building the snap](#building-the-snap).
-
 To install the snap from the Snap Store, run:
 
 ```
@@ -25,7 +21,7 @@ sudo snap connect lora-basicstation:docker-executables docker:docker-executables
 
 ## Configuration
 
-Configuration of the gateway is done similar to the Docker container, 
+Configuration of the gateway is done similar to the Docker container,
 using the same config options as listed in the [upstream documentation](https://github.com/xoseperez/basicstation-docker?tab=readme-ov-file#configure-the-gateway).
 The only difference is that we use snap config options rather than environment variables.
 It would be possible to create an environment variable file and pass that to Docker, but we prefer to use the standard snap configuration options.

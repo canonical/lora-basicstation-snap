@@ -44,10 +44,10 @@
             "id": "sLCsFAO8PKM5Z0fAKNszUOX0YASjQfeZ"
         },
         {
-            "name": "lora-basicstation-jpm",
+            "name": "lora-basicstation",
             "type": "app",
-            "default-channel": "latest/stable",
-            "id": "9W464FbCWND7wT7i8stxvrGPLqims23P"
+            "default-channel": "latest/edge",
+            "id": "Ym43FmNEiZgqaAciYg6EMqRC4dUjcYYb"
         },
         {
             "name": "landscape-client",
