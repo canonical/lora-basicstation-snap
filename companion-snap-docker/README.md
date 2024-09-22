@@ -1,6 +1,6 @@
 > [!WARNING]
 > The packaging method using Docker CLI for container management has been deprecated.
-> Instead, refer to the [Docker Compose based packaging](./companion-snap-compose).
+> Instead, refer to the [Docker Compose based packaging](../README-SNAP.md).
 
 # LoRa Basic Station Snap
 
