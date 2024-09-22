@@ -1,10 +1,10 @@
 name: Snap CI ARM64
 
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+  # push:
+  #   branches: [main]
+  # pull_request:
+  #   branches: [main]
   # Allow manual trigger
   workflow_dispatch:
 
@@ -23,8 +23,6 @@ jobs:
       - name: Build Snap
         uses: snapcore/action-build@v1
         id: snapcraft
-        with:
-          path: companion-snap-compose
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4

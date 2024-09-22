@@ -19,9 +19,7 @@ Run this command to install it:
 sudo snap install lora-basicstation
 ```
 
-It can also be built from source, available [here](companion-snap-compose).
-
-For more details on how to use this snap, how it works, or how to build it yourself, [read further here](companion-snap-compose/README.md).
+For more details on how to use this snap, how it works, or how to build it yourself, [read further here](README-SNAP.md).
 
 ## Creating an Ubuntu Core image for gateways
 
