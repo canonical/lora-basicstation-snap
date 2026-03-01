@@ -25,7 +25,7 @@ jobs:
         id: snapcraft
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ env.ARTIFACT_ARM64 }}
           path: ${{ steps.snapcraft.outputs.snap }}
@@ -38,7 +38,7 @@ jobs:
     runs-on: [self-hosted, ARM64, Linux]
     steps:
       - name: Download locally built snap
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: ${{ env.ARTIFACT_ARM64 }}
 
