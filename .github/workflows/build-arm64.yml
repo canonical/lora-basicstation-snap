@@ -18,7 +18,7 @@ jobs:
     runs-on: [self-hosted, ARM64, Linux]
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Build Snap
         uses: snapcore/action-build@v1
